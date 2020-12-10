@@ -3,6 +3,7 @@ from .mnist_nonuniform import *
 from .mocap_single import *
 from .mocap_many import *
 from .bballs import *
+from .fball import *
 
 
 def load_data(data_dir,task,dt=0.1,subject_id=0,plot=False):
@@ -16,6 +17,8 @@ def load_data(data_dir,task,dt=0.1,subject_id=0,plot=False):
 		dataset = load_mocap_data_single_walk(data_dir,subject_id=subject_id,dt=dt,plot=plot)
 	elif task=='bballs':
 		dataset = load_bball_data(data_dir,dt=dt,plot=plot)
+	elif task=='fball':
+		dataset = load_fball_data(data_dir,dt=dt,plot=plot)
 	[N,T,D] = dataset.train.x.shape
 	return dataset, N, T, D
 
@@ -28,3 +31,5 @@ def plot_reconstructions(task,X,Xrec,tobs,show=False,fname='reconstruction.png')
 		dataset = plot_cmu_mocap_recs(X,Xrec,show=show,fname=fname)
 	elif task=='bballs':
 		dataset = plot_bball_recs(X,Xrec,show=show,fname=fname)
+	elif task=='fball':
+		dataset = plot_fball_recs(X,Xrec,show=show,fname=fname)

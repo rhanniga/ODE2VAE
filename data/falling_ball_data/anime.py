@@ -2,7 +2,6 @@ import random
 import matplotlib
 matplotlib.use('Agg')
 import numpy as np
-import hickle as hkl
 from matplotlib import pyplot as plt
 from matplotlib import animation
 from skimage import color
@@ -53,15 +52,15 @@ def animate(t):
     
     return patch,
 
-NUM_TRIALS = 100
+NUM_TRIALS = 200
 NUM_FRAMES = 60
 
 X_MIN, X_MAX = 0, 10
 Y_MIN, Y_MAX = 0, 10
 
-WIDTH, HEIGHT = 30, 30
+WIDTH, HEIGHT = 32, 32
 
-data_matrix = np.zeros((NUM_TRIALS, NUM_FRAMES, WIDTH*HEIGHT))
+data_matrix = np.zeros((NUM_TRIALS, NUM_FRAMES, WIDTH*HEIGHT), dtype=np.float32)
 
 V_MAX = 10
 
@@ -69,7 +68,7 @@ epsilon = 0.01
 
 for n in range(NUM_TRIALS):
     fig = plt.figure()
-    fig.set_dpi(30)
+    fig.set_dpi(32)
     fig.set_size_inches(1, 1)
 
 
@@ -100,6 +99,6 @@ for n in range(NUM_TRIALS):
                                 frames=NUM_FRAMES, 
                                 interval=20,
                                 blit=True)
-    anim.save(f"fball_train_{n}.mp4")
+    anim.save(f"fball_testing_{n}.mp4")
 
-hkl.dump(data_matrix, 'fball_training.hkl', mode='w', compression='gzip')
+np.save("fball_testing.npy", data_matrix)

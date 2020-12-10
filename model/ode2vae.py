@@ -87,7 +87,7 @@ class ODE2VAE(object):
 
 	def set_configs(self):
 		# network output types, needed for reconstruction likelihood
-		if self.task=='bballs' or self.task=='mnist':
+		if self.task=='bballs' or self.task=='mnist' or self.task=='fball':
 			self.dec_out = 'bernoulli'
 		else:
 			self.dec_out = 'normal'
@@ -173,7 +173,7 @@ class ODE2VAE(object):
 				v_enc_fnc = self.enc_dense # enc_dense, enc_rnn
 				v0 = tf.reshape(v0,[-1,self.amort_len*self.D])
 				x0vs = tf.reshape(x0vs,[-1,self.amort_len*self.D]) # (T-amort_len)*N, amort_len*D
-		elif self.task=='mnist' or self.task=='bballs':
+		elif self.task=='mnist' or self.task=='bballs' or self.task=='fball':
 			dec_fnc = self.dec_mnist_bball
 			if self.is_enc_rnn:
 				v_enc_fnc = self.enc_rnn
@@ -287,7 +287,7 @@ class ODE2VAE(object):
 				z = tf.contrib.layers.fully_connected(z, 3*3*8, activation_fn=None)
 				z = tf.reshape(z, shape=[-1, 3, 3, 8])
 				z = tf.nn.relu(self.d_bns[0](deconv2d(z, self.NF_dec*4, k_h=3, k_w=3, padding='valid', name='h0'),train=self.train))
-			elif self.task == 'bballs':
+			elif self.task == 'bballs' or self.task == 'fball':
 				z = tf.contrib.layers.fully_connected(z, 4*4*8, activation_fn=None)
 				z = tf.reshape(z, shape=[-1, 4, 4, 8])
 				z = tf.nn.relu(self.d_bns[0](deconv2d(z, self.NF_dec*4, k_h=self.KW_dec, k_w=self.KW_dec, name='h0'),train=self.train))

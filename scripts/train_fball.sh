@@ -1,6 +1,5 @@
-
 #!/bin/bash
-train.py \
+python train.py \
   --task fball \
   --data_root data \
   --q 25 \
