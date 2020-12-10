@@ -26,7 +26,7 @@ dataset, N, T, D = load_data(data_root, task, subject_id=subject_id, plot=True)
 dt = 0.1
 t = dt*np.arange(0,T,dtype=np.float32)
 # file extensions 
-if task=='bballs' or 'mnist' in task:
+if task=='bballs' or task=='fball' or 'mnist' in task:
 	ext = '{:s}_q{:d}_inst{:d}_fopt{:d}_enc{:d}_dec{:d}'.format(task,q,inst_enc_KL,f_opt,NF_enc,NF_dec)
 elif 'mocap' in task:
 	ext = '{:s}_q{:d}_inst{:d}_fopt{:d}_He{:d}_Hf{:d}_Hd{:d}'.format(task,q,inst_enc_KL,f_opt,He,Hf,Hd)
@@ -125,7 +125,7 @@ for epoch in range(num_epoch):
 			X1 = X[:,amort_len:,:]
 			X2 = Xrec[:,amort_len:,:]
 			val_err = np.mean((X1-X2)**2)
-		elif task=='bballs':
+		elif task=='bballs' or task == 'fball':
 			X1 = X[:,amort_len:amort_len+10,:]
 			X2 = Xrec[:,amort_len:amort_len+10,:]
 			val_err = np.sum((X1-X2)**2,2)
