@@ -96,7 +96,7 @@ def reconstruct(X,L=5,ts=None,fix_BNN=False,fix_enc=False):
     Xrecs = []
     for l in range(L):
         # Xrec = sess.run(Xrec_op, feed_dict={x: X, t:ts, is_train:False, Tss:X.shape[1]})
-        Xrec = sess.run(Xrec_op_L, feed_dict={x: X, t:ts, is_train:False, Tss:X.shape[1]})
+        Xrec = sess.run(Xrec_op_L, feed_dict={x: X, t:ts, is_train:False, Tss:50})
         Xrec = np.reshape(Xrec,(-1,X.shape[0],D)) # [T,N,D]
         Xrec = np.transpose(Xrec,[1,0,2]) # [N,T,D]
         Xrec = np.expand_dims(Xrec,1)
@@ -146,3 +146,14 @@ if 'nonuniform' in task:
 Xrec = reconstruct(X,L=1,ts=ts)  # samples from the decoder
 Xrec = np.squeeze(Xrec,1) # N,T,D
 plot_reconstructions(task,X,Xrec,ts,show=False,fname='plots/{:s}/rec_{:s}.png'.format(task,ext))
+
+STARTING_FRAME = 0
+NUM_FRAMES = 3
+X_small = X[:, STARTING_FRAME:STARTING_FRAME + NUM_FRAMES, :]
+Xrec_small = reconstruct(X_small,L=1,ts=ts)  # samples from the decoder
+Xrec_small = np.squeeze(Xrec_small,1) # N,T,D
+plot_reconstructions(task,X,Xrec_small,ts,show=False,fname='plots/{:s}/rec_{:s}_small.png'.format(task,ext))
+
+mse = ((Xrec - X)**2).mean(axis=None)
+
+print(f"The MSE across test data is: {mse}")

@@ -1,3 +1,5 @@
+# HELLLO JOSEPH AND CHANDRAJIT I HAVE APPENDED THIS README TO HELP YOU TEST MY MODEL! (look at the bottom)
+
 # <img src="https://latex.codecogs.com/gif.latex?\Huge{\textbf{ODE}\mbox{\Huge$^2$}\textbf{VAE}}" />
 
 TensorFlow and PyTorch implementation of [Deep generative second order ODEs with Bayesian neural networks](https://arxiv.org/pdf/1905.10994.pdf) by <br/> [Çağatay Yıldız](http://cagatayyildiz.github.io), [Markus Heinonen](https://users.aalto.fi/~heinom10/) and [Harri Lahdesmäki](https://users.ics.aalto.fi/harrila/).
@@ -76,3 +78,15 @@ to reproduce the results. Similarly, the path argument in test bash files needs 
 <p align="center">
   <img align="middle" src="images/bballs.png" alt="bouncing ball data + reconstructions" width="1000"/>
 </p>
+
+
+## HOW TO TEST RYAN'S MODEL:
+Hey guys! Here's a quick rundown onto testing my model:
+
+If you would like to test the *ELASTIC* dataset (where no kinetic energy is lost between each bounce), all you have to do is go to the root directory of this repository and run ```scripts/test_fball.sh```
+If you would like to test the inelastic dataset, you will need to re-generate the testing, training, and input tensors. To do this, you will have to change the "bounciness" coefficient for each generate_*.py 
+file to 0.8, then run the "generate_all.sh" script. You should then be able to replace "elastic" with "inelastic" in the test_fball.sh file, and be on your way!
+
+Let me know if there are any questions!
+
+Also if you wanna see some of the result plots from the elastic/inelastic dataset, look under the "plots" directory!

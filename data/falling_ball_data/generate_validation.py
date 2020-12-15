@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 from skimage import color
 
+
 plt.style.use('dark_background')
 
 
@@ -16,25 +17,25 @@ def init():
 
 
 def animate(t):
-    global x0, x_old, v_x, y0, y_old, v_y, counter_x, counter_y
+    global x0, x_old, v_x, y0, y_old, v_y, counter_x, counter_y, epsilon
     T_x = TIMESCALE*counter_x
     T_y = TIMESCALE*counter_y
     x_old, y_old = patch.center
     x = x0 + v_x*T_x
     y = y0 + v_y*T_y - 0.5*9.81*T_y**2 
-    if y - R < Y_MIN:
+    if y - R - epsilon < Y_MIN:
         v_y = bounciness*(y_old - y)/TIMESCALE
         y0 = R
         counter_y = 0
-    elif y + R > Y_MAX:
+    elif y + R + epsilon > Y_MAX:
         v_y = bounciness*(y_old - y)/TIMESCALE
         y0 = Y_MAX - R
         counter_y = 0
-    elif x - R < X_MIN:
+    elif x - R - epsilon < X_MIN:
         v_x = bounciness*(x_old - x)/TIMESCALE
         x0 = R
         counter_x = 0
-    elif x + R > X_MAX:
+    elif x + R + epsilon > X_MAX:
         v_x = bounciness*(x_old - x)/TIMESCALE
         x0 = X_MAX - R
         counter_x = 0
@@ -53,7 +54,7 @@ def animate(t):
     return patch,
 
 NUM_TRIALS = 200
-NUM_FRAMES = 60
+NUM_FRAMES = 50
 
 X_MIN, X_MAX = 0, 10
 Y_MIN, Y_MAX = 0, 10
@@ -76,10 +77,10 @@ for n in range(NUM_TRIALS):
     ax = plt.axes(xlim=(X_MIN, X_MAX), ylim=(Y_MIN, Y_MAX))
     ax.set_axis_off()
 
-    R = random.uniform(0.25, 0.75) 
+    R = 2
     patch = plt.Circle((5, -5), R, fc='w')
 
-    TIMESCALE = 10.0/500
+    TIMESCALE = 10.0/200
 
     v_x = random.uniform(-V_MAX, V_MAX)
     v_y = random.uniform(-V_MAX, V_MAX)
@@ -93,12 +94,12 @@ for n in range(NUM_TRIALS):
     counter_x = 0 
     counter_y = 0 
 
-    bounciness = random.uniform(0.7, 1)
+    bounciness = 1
     anim = animation.FuncAnimation(fig, animate, 
                                 init_func=init, 
                                 frames=NUM_FRAMES, 
                                 interval=20,
                                 blit=True)
-    anim.save(f"fball_testing_{n}.mp4")
+    anim.save(f"fball_validation_{n}.mp4")
 
-np.save("fball_testing.npy", data_matrix)
+np.save("fball_validation.npy", data_matrix)
